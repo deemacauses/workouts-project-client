@@ -1,5 +1,5 @@
 [[redirects]]
   from = "/api/*"
-  to = "https://workouts-mern-stack-project.herokuapp.com/api/:splat"
+  to = "https://workouts-project-server.herokuapp.com/api/:splat"
   status = 200
   force = true
