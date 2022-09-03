@@ -18,8 +18,8 @@ const Home = () => {
   return (
     <main
       className={classes(
-        "xl-2:max-w-xl-7 container mx-auto px-5",
-        "mt-40 mb-20 items-start justify-center",
+        "container mx-auto px-5 xl-2:max-w-xl-7",
+        "mt-24 mb-20 items-start justify-center",
         "grid grid-cols-1 gap-5 lg:grid-cols-3"
       )}>
       <div

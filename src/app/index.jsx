@@ -1,7 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { Helmet } from "react-helmet"
-import Home from "../pages/home/"
 import Navbar from "../components/navbar"
+import Home from "../pages/home/"
+import LogIn from "../pages/log-in"
+import SignUp from "../pages/sign-up"
 
 function App() {
   const font = [
@@ -21,6 +23,8 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/login" element={<LogIn />} />
+          <Route path="/sign-up" element={<SignUp />} />
         </Routes>
       </BrowserRouter>
     </div>
