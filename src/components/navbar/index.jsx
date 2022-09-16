@@ -3,7 +3,7 @@ import { classes } from "../../lib/utils"
 
 const Navbar = () => {
   const links = [
-    { name: "Login", to: "/login" },
+    { name: "Log in", to: "/login" },
     { name: "Sign up", to: "/sign-up" }
   ]
 

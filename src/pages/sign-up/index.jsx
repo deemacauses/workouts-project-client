@@ -4,6 +4,7 @@ import UserForm from "../../components/user-form"
 const SignUp = () => {
   return (
     <UserForm
+      type="sign-up"
       title="Let's sign-up"
       paragraph={[
         "Hi there and welcome back to your stunning account here",

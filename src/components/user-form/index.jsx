@@ -1,13 +1,15 @@
 import { useState } from "react"
+import { useSignUp } from "../../hooks/sign-up"
 import { classes } from "../../lib/utils"
 
-export default function UserForm({ title, paragraph, button, image }) {
+export default function UserForm({ type, title, paragraph, button, image }) {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const { signUp, error, isLoading } = useSignUp()
 
-  const handleSubmit = async event => {
+  const handleButtonClick = async event => {
     event.preventDefault()
-    console.log(email, password)
+    if (type === "sign-up") await signUp(email, password)
   }
 
   return (
@@ -52,26 +54,30 @@ export default function UserForm({ title, paragraph, button, image }) {
             "items-stretch justify-start gap-3"
           )}>
           <input
-            className={classes(
-              "w-full rounded-lg border-0 border-transparent bg-zinc-800/50",
-              "h-16 p-5 text-base font-normal leading-5 outline-none transition",
-              "placeholder:opacity-1 text-white placeholder:text-zinc-500",
-              "spin-button-hidden focus:ring-2 focus:ring-yellow-400 sm:text-lg"
-            )}
+            onChange={e => setEmail(e.target.value)}
             type="email"
             placeholder="E-mail"
-          />
-          <input
             className={classes(
               "w-full rounded-lg border-0 border-transparent bg-zinc-800/50",
               "h-16 p-5 text-base font-normal leading-5 outline-none transition",
               "placeholder:opacity-1 text-white placeholder:text-zinc-500",
               "spin-button-hidden focus:ring-2 focus:ring-yellow-400 sm:text-lg"
             )}
+          />
+          <input
+            onChange={e => setPassword(e.target.value)}
             type="password"
             placeholder="Password"
+            className={classes(
+              "w-full rounded-lg border-0 border-transparent bg-zinc-800/50",
+              "h-16 p-5 text-base font-normal leading-5 outline-none transition",
+              "placeholder:opacity-1 text-white placeholder:text-zinc-500",
+              "spin-button-hidden focus:ring-2 focus:ring-yellow-400 sm:text-lg"
+            )}
           />
           <button
+            onClick={handleButtonClick}
+            disabled={isLoading}
             className={classes(
               "w-full rounded-lg border-0 border-transparent bg-white",
               "h-16 p-5 text-base font-medium leading-5 outline-none transition",
@@ -79,6 +85,16 @@ export default function UserForm({ title, paragraph, button, image }) {
             )}>
             {button}
           </button>
+          {error && (
+            <div
+              className={classes(
+                "w-full rounded-lg border-2 border-red-500 bg-zinc-800/20",
+                "h-16 p-5 text-base font-medium leading-5 outline-none transition",
+                "text-white focus:ring-2 focus:ring-red-400 sm:text-lg"
+              )}>
+              {error}
+            </div>
+          )}
         </form>
       </div>
       <div
@@ -88,7 +104,7 @@ export default function UserForm({ title, paragraph, button, image }) {
         )}>
         <img
           src={image}
-          alt="Login Lock Icon"
+          alt={title}
           className={classes("h-full w-full max-w-sm")}
         />
       </div>
