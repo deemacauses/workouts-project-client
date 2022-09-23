@@ -7,7 +7,7 @@ export default function UserForm({ type, title, paragraph, button, image }) {
   const [password, setPassword] = useState("")
   const { signUp, error, isLoading } = useSignUp()
 
-  const handleButtonClick = async event => {
+  const handleSubmit = async event => {
     event.preventDefault()
     if (type === "sign-up") await signUp(email, password)
   }
@@ -49,14 +49,16 @@ export default function UserForm({ type, title, paragraph, button, image }) {
           </p>
         </div>
         <form
+          onSubmit={handleSubmit}
           className={classes(
             "flex h-auto w-full flex-col flex-wrap",
             "items-stretch justify-start gap-3"
           )}>
           <input
-            onChange={e => setEmail(e.target.value)}
+            onChange={event => setEmail(event.target.value)}
             type="email"
             placeholder="E-mail"
+            value={email}
             className={classes(
               "w-full rounded-lg border-0 border-transparent bg-zinc-800/50",
               "h-16 p-5 text-base font-normal leading-5 outline-none transition",
@@ -65,9 +67,10 @@ export default function UserForm({ type, title, paragraph, button, image }) {
             )}
           />
           <input
-            onChange={e => setPassword(e.target.value)}
+            onChange={event => setPassword(event.target.value)}
             type="password"
             placeholder="Password"
+            value={password}
             className={classes(
               "w-full rounded-lg border-0 border-transparent bg-zinc-800/50",
               "h-16 p-5 text-base font-normal leading-5 outline-none transition",
@@ -76,7 +79,6 @@ export default function UserForm({ type, title, paragraph, button, image }) {
             )}
           />
           <button
-            onClick={handleButtonClick}
             disabled={isLoading}
             className={classes(
               "w-full rounded-lg border-0 border-transparent bg-white",

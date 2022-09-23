@@ -1,11 +1,17 @@
 import { Link } from "react-router-dom"
 import { classes } from "../../lib/utils"
+import { useLogOut } from "../../hooks/log-out"
 
 const Navbar = () => {
   const links = [
-    { name: "Log in", to: "/login" },
+    { name: "Log in", to: "/log-in" },
     { name: "Sign up", to: "/sign-up" }
   ]
+
+  const { logOut } = useLogOut()
+  const handleButtonClick = () => {
+    logOut()
+  }
 
   return (
     <nav
@@ -36,20 +42,39 @@ const Navbar = () => {
             "flex-col items-center justify-center gap-3",
             "sm:gap-5 md:h-auto md:w-auto md:gap-10"
           )}>
-          {links.map(link => (
-            <Link
-              key={link.name}
-              to={link.to}
+          <div className={classes("h-full w-full md:h-auto md:w-auto")}>
+            <button
+              onClick={handleButtonClick}
               className={classes(
-                "text-sm font-medium leading-none text-white",
+                "text-sm font-medium leading-none text-zinc-900",
                 "not-italic no-underline transition sm:text-base",
-                "hover:text-yellow-300 focus:text-yellow-500",
-                "w-full rounded-lg bg-zinc-800/60 py-4 px-6",
-                "md:rounded text-center md:w-max md:bg-transparent md:p-0"
+                "w-full rounded-lg bg-white py-4 px-6 ",
+                "focus:ring-2 focus:ring-yellow-400 md:w-max"
               )}>
-              {link.name}
-            </Link>
-          ))}
+              Log out
+            </button>
+          </div>
+          <div
+            className={classes(
+              "flex h-full w-full xs:flex-row",
+              "flex-col items-center justify-center gap-3",
+              "sm:gap-5 md:h-auto md:w-auto md:gap-10"
+            )}>
+            {links.map(link => (
+              <Link
+                key={link.name}
+                to={link.to}
+                className={classes(
+                  "text-sm font-medium leading-none text-white",
+                  "not-italic no-underline transition sm:text-base",
+                  "hover:text-yellow-300 focus:text-yellow-500",
+                  "w-full rounded-lg bg-zinc-800/60 py-4 px-6",
+                  "md:rounded text-center md:w-max md:bg-transparent md:p-0"
+                )}>
+                {link.name}
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
     </nav>
