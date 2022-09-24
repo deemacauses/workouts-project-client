@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom"
 import { classes } from "../../lib/utils"
+import { UserCircleIcon } from "@heroicons/react/outline"
 import { useLogOut } from "../../hooks/log-out"
+import { useAuthContext } from "../../hooks/auth"
 
 const Navbar = () => {
   const links = [
@@ -9,6 +11,8 @@ const Navbar = () => {
   ]
 
   const { logOut } = useLogOut()
+  const { user } = useAuthContext()
+
   const handleButtonClick = () => {
     logOut()
   }
@@ -36,13 +40,27 @@ const Navbar = () => {
             Workout <span className={classes("text-yellow-400")}>Buddy</span>
           </h1>
         </Link>
-        <div
-          className={classes(
-            "relative flex h-full w-full xs:flex-row",
-            "flex-col items-center justify-center gap-3",
-            "sm:gap-5 md:h-auto md:w-auto md:gap-10"
-          )}>
-          <div className={classes("h-full w-full md:h-auto md:w-auto")}>
+
+        {user && (
+          <div
+            className={classes(
+              "flex h-full w-full xs:flex-row",
+              "flex-col items-center justify-center gap-5",
+              "sm:gap-5 md:h-auto md:w-auto md:gap-10"
+            )}>
+            <div className="flex items-center justify-center gap-2">
+              <UserCircleIcon
+                strokeWidth={1.5}
+                className={classes(
+                  "relative h-6 w-6",
+                  "fill-transparent stroke-yellow-400"
+                )}
+              />
+              <span className={classes("text-lg text-white")}>
+                {user.email}
+              </span>
+            </div>
+
             <button
               onClick={handleButtonClick}
               className={classes(
@@ -54,6 +72,8 @@ const Navbar = () => {
               Log out
             </button>
           </div>
+        )}
+        {!user && (
           <div
             className={classes(
               "flex h-full w-full xs:flex-row",
@@ -75,7 +95,7 @@ const Navbar = () => {
               </Link>
             ))}
           </div>
-        </div>
+        )}
       </div>
     </nav>
   )
