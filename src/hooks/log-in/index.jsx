@@ -1,16 +1,16 @@
 import { useState } from "react"
 import { useAuthContext } from "../auth"
 
-export const useSignUp = () => {
-  const [errorSignUp, setErrorSignUp] = useState(null)
-  const [isLoadingSignUp, setIsLoadingSignUp] = useState(null)
+export const useLogIn = () => {
+  const [errorLogIn, setErrorLogIn] = useState(null)
+  const [isLoadingLogIn, setIsLoadingLogIn] = useState(null)
   const { dispatch } = useAuthContext()
 
-  const signUp = async (email, password) => {
-    setIsLoadingSignUp(true)
-    setErrorSignUp(null)
+  const logIn = async (email, password) => {
+    setIsLoadingLogIn(true)
+    setErrorLogIn(null)
 
-    const response = await fetch("/api/user/sign-up", {
+    const response = await fetch("/api/user/log-in", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password })
@@ -18,8 +18,8 @@ export const useSignUp = () => {
     const json = await response.json()
 
     if (!response.ok) {
-      setIsLoadingSignUp(false)
-      setErrorSignUp(json.error)
+      setIsLoadingLogIn(false)
+      setErrorLogIn(json.error)
     }
     if (response.ok) {
       // save the user to local storage
@@ -29,9 +29,9 @@ export const useSignUp = () => {
       dispatch({ type: "LOGIN", payload: json })
 
       // update loading state
-      setIsLoadingSignUp(false)
+      setIsLoadingLogIn(false)
     }
   }
 
-  return { signUp, isLoadingSignUp, errorSignUp }
+  return { logIn, isLoadingLogIn, errorLogIn }
 }

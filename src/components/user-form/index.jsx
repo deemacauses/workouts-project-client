@@ -1,15 +1,18 @@
 import { useState } from "react"
+import { useLogIn } from "../../hooks/log-in"
 import { useSignUp } from "../../hooks/sign-up"
 import { classes } from "../../lib/utils"
 
 export default function UserForm({ type, title, paragraph, button, image }) {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const { signUp, error, isLoading } = useSignUp()
+  const { signUp, errorSignUp, isLoadingSignUp } = useSignUp()
+  const { logIn, errorLogIn, isLoadingLogIn } = useLogIn()
 
   const handleSubmit = async event => {
     event.preventDefault()
     if (type === "sign-up") await signUp(email, password)
+    if (type === "log-in") await logIn(email, password)
   }
 
   return (
@@ -79,7 +82,7 @@ export default function UserForm({ type, title, paragraph, button, image }) {
             )}
           />
           <button
-            disabled={isLoading}
+            disabled={isLoadingSignUp || isLoadingLogIn}
             className={classes(
               "w-full rounded-lg border-0 border-transparent bg-white",
               "h-16 p-5 text-base font-medium leading-5 outline-none transition",
@@ -87,14 +90,14 @@ export default function UserForm({ type, title, paragraph, button, image }) {
             )}>
             {button}
           </button>
-          {error && (
+          {(errorSignUp || errorLogIn) && (
             <div
               className={classes(
                 "w-full rounded-lg border-2 border-red-500 bg-zinc-800/20",
                 "h-16 p-5 text-base font-medium leading-5 outline-none transition",
                 "text-white focus:ring-2 focus:ring-red-400 sm:text-lg"
               )}>
-              {error}
+              {errorSignUp || errorLogIn}
             </div>
           )}
         </form>
