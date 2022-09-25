@@ -6,14 +6,22 @@ import {
 } from "@heroicons/react/solid"
 import { classes } from "../../lib/utils"
 import { useWorkoutsContext } from "../../hooks/workout"
+import { useAuthContext } from "../../hooks/auth"
 import formatDistanceToNow from "date-fns/formatDistanceToNow"
 
 const WorkoutDetails = ({ workout }) => {
   const { dispatch } = useWorkoutsContext()
+  const { user } = useAuthContext()
   const { _id, title, load, reps, createdAt } = workout
 
   const handleDeleteButtonClick = async () => {
-    const params = { method: "DELETE" }
+    if (!user) {
+      return
+    }
+    const params = {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${user.token}` }
+    }
     const response = await fetch("/api/workouts/" + _id, params)
     const json = await response.json()
     if (response.ok) dispatch({ type: "DELETE_WORKOUT", payload: json })
@@ -34,10 +42,10 @@ const WorkoutDetails = ({ workout }) => {
         )}>
         <h2
           className={classes(
-            "font-semi-bold text-lg leading-none text-white",
+            "text-lg font-semi-bold leading-none text-white",
             "underline decoration-2 underline-offset-4 transition",
             "truncate decoration-transparent group-hover:decoration-white",
-            "md:text-xl-2 sm:text-xl"
+            "sm:text-xl md:text-xl-2"
           )}>
           {title}
         </h2>
