@@ -2,13 +2,13 @@ import { useState } from "react"
 import { useAuthContext } from "../auth"
 
 export const useLogIn = () => {
-  const [errorLogIn, setErrorLogIn] = useState(null)
-  const [isLoadingLogIn, setIsLoadingLogIn] = useState(null)
+  const [error, setError] = useState(null)
+  const [isLoading, setIsLoading] = useState(null)
   const { dispatch } = useAuthContext()
 
   const logIn = async (email, password) => {
-    setIsLoadingLogIn(true)
-    setErrorLogIn(null)
+    setIsLoading(true)
+    setError(null)
 
     const response = await fetch("/api/user/log-in", {
       method: "POST",
@@ -18,8 +18,8 @@ export const useLogIn = () => {
     const json = await response.json()
 
     if (!response.ok) {
-      setIsLoadingLogIn(false)
-      setErrorLogIn(json.error)
+      setIsLoading(false)
+      setError(json.error)
     }
     if (response.ok) {
       // save the user to local storage
@@ -29,9 +29,9 @@ export const useLogIn = () => {
       dispatch({ type: "LOGIN", payload: json })
 
       // update loading state
-      setIsLoadingLogIn(false)
+      setIsLoading(false)
     }
   }
 
-  return { logIn, isLoadingLogIn, errorLogIn }
+  return { logIn, isLoading, error }
 }

@@ -6,8 +6,8 @@ import { classes } from "../../lib/utils"
 export default function UserForm({ type, title, paragraph, button, image }) {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const { signUp, errorSignUp, isLoadingSignUp } = useSignUp()
-  const { logIn, errorLogIn, isLoadingLogIn } = useLogIn()
+  const { signUp, error: errorSignUp, isLoading: isLoadingSignUp } = useSignUp()
+  const { logIn, error: errorLogIn, isLoading: isLoadingLogIn } = useLogIn()
 
   const handleSubmit = async event => {
     event.preventDefault()
